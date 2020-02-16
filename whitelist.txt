@@ -1,4 +1,5 @@
 githubusercontent.com
+internetpolyglot.com
 ocsp.digicert.com
 stackoverflow.com
 githubassets.com
@@ -19,6 +20,7 @@ icloud.com
 npmjs.com
 apple.com
 gmail.com
+ebay.com
 vk.com
 vkuseraudio.net
 vkuservideo.net
@@ -30,11 +32,15 @@ yandex.net
 akadns.net
 wikipedia.org
 nodejs.org
+npmjs.org
 ntp.org
 one.one.one.one
 in-addr.arpa
+etbonline.ie
 donedeal.ie
+ddletb.ie
 myhome.ie
 google.ie
+ebay.ie
 google.md
 yandex.ru
