@@ -1,4 +1,5 @@
 githubusercontent.com
+ocsp.digicert.com
 stackoverflow.com
 githubassets.com
 visualstudio.com
@@ -9,6 +10,7 @@ amazonaws.com
 npm-graph.com
 w3schools.com
 gravatar.com
+wheather.com
 userapi.com
 gstatic.com
 google.com
