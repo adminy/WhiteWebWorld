@@ -28,10 +28,27 @@ allowed = fs.readFileSync('./whitelist.txt').toString().split('\n')
 //     .map( line => line.trim());
 // }
 
-function isBlocked(domain) {
+const blockedSites = {}
+
+const showStats = domain => {
+  domain = domain.split('.').slice(-2).join('.')
+  if(domain in blockedSites) blockedSites[domain]++
+  else blockedSites[domain] = 0
+
+  const sites = Object.entries(blockedSites).sort((a, b) => b[1] - a[1])
+  const size = sites.length > 80 ? 80 : sites.length
+  console.clear()
+  console.log(`Total Sites Blocked: ${sites.length}\x1b[31m`)
+  for(let i = 0; i < size; i++)
+    console.log((i < 9 ? ' ' + i : i) + (`> ${sites[i][1]}` + ' '.repeat(9)).substr(0, 9) + `:${sites[i][0]}`)
+  console.log('\x1b[0m______________________')
+}
+
+const isBlocked = domain => {
   for(const dns of allowed)
     if(domain.includes(dns))
       return false;
+  setTimeout(() => showStats(domain), 200)
   return true;
   // if(hosts.includes(domain)) return true;
   // return hosts.some(host=> host.includes('*') && minimatch(domain, host));
@@ -61,7 +78,7 @@ module.exports.resolveQuery = function resolveQuery(packet) {
 
     // resolve with NXDOMAIN if the domain is blocked
     if(['A', 'AAAA'].includes(question.type) && isBlocked(question.name)) {
-      console.log(`Blocked ${question.name}`);
+      // lm.log(`Blocked ${question.name}`);
       return resolve(encode({ type: 'response', id: request.id, flags: 3, questions: request.questions })); // flag 3 is NXDOMAIN; https://serverfault.com/a/827108
     }
 
