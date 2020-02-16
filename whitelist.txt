@@ -31,6 +31,8 @@ nodejs.org
 ntp.org
 one.one.one.one
 in-addr.arpa
+donedeal.ie
+myhome.ie
 google.ie
 google.md
 yandex.ru
