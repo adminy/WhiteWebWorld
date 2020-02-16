@@ -1,11 +1,13 @@
 githubusercontent.com
 stackoverflow.com
 githubassets.com
+visualstudio.com
 duckduckgo.com
 googleapis.com
 githubapp.com
 amazonaws.com
 npm-graph.com
+w3schools.com
 gravatar.com
 userapi.com
 gstatic.com
@@ -27,6 +29,7 @@ akadns.net
 wikipedia.org
 nodejs.org
 ntp.org
+one.one.one.one
 in-addr.arpa
 google.ie
 google.md
