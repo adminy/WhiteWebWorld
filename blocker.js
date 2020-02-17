@@ -8,7 +8,15 @@ const { encode, decode } = require('dns-packet');
 const { queryServers } = require('./query');
 const fs = require('fs')
 // let hosts = [];
-allowed = fs.readFileSync('./whitelist.txt').toString().split('\n')
+const WL = __dirname + '/whitelist.txt'
+const loadWhiteList = () => fs.readFileSync(WL).toString().split('\n').filter(line => line.length > 0)
+allowed = loadWhiteList()
+fs.watch(WL, {}, () =>
+   setTimeout(() =>
+	   allowed = loadWhiteList(), 1000
+   )
+)
+
 // function md5(string) {
 //   return crypto.createHash('md5').update(string).digest('hex')
 // }
@@ -40,14 +48,14 @@ const showStats = domain => {
   console.clear()
   console.log(`Total Sites Blocked: ${sites.length}\x1b[31m`)
   for(let i = 0; i < size; i++)
-    console.log((i < 9 ? ' ' + i : i) + (`> ${sites[i][1]}` + ' '.repeat(9)).substr(0, 9) + `:${sites[i][0]}`)
+    console.log((i <= 9 ? ' ' + i : i) + (`> ${sites[i][1]}` + ' '.repeat(9)).substr(0, 9) + `:${sites[i][0]}`)
   console.log('\x1b[0m______________________')
 }
 
 const isBlocked = domain => {
   for(const dns of allowed)
     if(domain.includes(dns))
-      return false;
+       return false;
   setTimeout(() => showStats(domain), 200)
   return true;
   // if(hosts.includes(domain)) return true;
