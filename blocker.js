@@ -35,7 +35,13 @@ fs.watch(WL, {}, () =>
 //     .map( line => line.split(' ')[1]) // keep just the hostname
 //     .map( line => line.trim());
 // }
-
+const readline = require('readline')
+const clearLogs = () => {
+  const blank = '\n'.repeat(process.stdout.rows)
+  console.log(blank)
+  readline.cursorTo(process.stdout, 0, 0)
+  readline.clearScreenDown(process.stdout)
+}
 const blockedSites = {}
 
 const showStats = domain => {
@@ -45,7 +51,7 @@ const showStats = domain => {
 
   const sites = Object.entries(blockedSites).sort((a, b) => b[1] - a[1])
   const size = sites.length > 80 ? 80 : sites.length
-  console.clear()
+  clearLogs()
   console.log(`Total Sites Blocked: ${sites.length}\x1b[31m`)
   for(let i = 0; i < size; i++)
     console.log((i <= 9 ? ' ' + i : i) + (`> ${sites[i][1]}` + ' '.repeat(9)).substr(0, 9) + `:${sites[i][0]}`)
