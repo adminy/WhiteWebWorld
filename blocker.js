@@ -47,7 +47,7 @@ const blockedSites = {}
 const showStats = domain => {
   domain = domain.split('.').slice(-2).join('.')
   if(domain in blockedSites) blockedSites[domain]++
-  else blockedSites[domain] = 0
+  else blockedSites[domain] = 1
 
   const sites = Object.entries(blockedSites).sort((a, b) => b[1] - a[1])
   const size = sites.length > 80 ? 80 : sites.length

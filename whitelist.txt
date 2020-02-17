@@ -1,3 +1,4 @@
+menshairstylestoday.com
 githubusercontent.com
 internetpolyglot.com
 ocsp.digicert.com
@@ -5,6 +6,7 @@ stackoverflow.com
 stackexchange.com
 githubassets.com
 visualstudio.com
+docstransfer.com
 skypeassets.com
 duckduckgo.com
 googleapis.com
@@ -18,9 +20,11 @@ askubuntu.com
 superuser.com
 gravatar.com
 wheather.com
+weather.com
 gstatic.com
 userapi.com
 yarnpkg.com
+shazam.com
 google.com
 github.com
 icloud.com
@@ -40,6 +44,7 @@ vkuservideo.net
 vk-portal.net
 apple-dns.net
 yastatic.net
+jsdelivr.net
 vk-cdn.net
 yandex.net
 akadns.net
@@ -57,6 +62,7 @@ ntp.org
 one.one.one.one
 in-addr.arpa
 
+accountingtechniciansireland.ie
 citizensinformation.ie
 etbonline.ie
 donedeal.ie
@@ -66,12 +72,18 @@ myhome.ie
 google.ie
 ebay.ie
 ncts.ie
+sage.ie
 gov.ie
+dcu.ie
+aib.ie
 
 google.md
 yandex.ru
 versuri.ro
 
-iyoutube.com
+ie.dyndns.biz
+
+#youtu.be
+#youtube.com
 #googlevideo.com
 #ytimg.com
