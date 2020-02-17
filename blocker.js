@@ -1,85 +1,64 @@
-// const fetch = require('node-fetch');
-// const crypto = require('crypto');
-// const fs = require('fs-extra');
-// const path = require('path');
-const config = require('./config.js');
-// const minimatch = require('minimatch');
-const { encode, decode } = require('dns-packet');
-const { queryServers } = require('./query');
+const net = require('net')
 const fs = require('fs')
-// let hosts = [];
+const { encode, decode } = require('dns-packet');
+const config = require('./config.js');
+const { queryServers } = require('./query');
+
 const WL = __dirname + '/whitelist.txt'
+
 const loadWhiteList = () => fs.readFileSync(WL).toString().split('\n').filter(line => line.length > 0)
+
 allowed = loadWhiteList()
-fs.watch(WL, {}, () =>
-   setTimeout(() =>
-	   allowed = loadWhiteList(), 1000
-   )
-)
 
-// function md5(string) {
-//   return crypto.createHash('md5').update(string).digest('hex')
-// }
+fs.watch(WL, {}, () => setTimeout(() => allowed = loadWhiteList(), 1000))
 
-// async function download(url) {
-//   const res = await fetch(url);
-//   if(res.status !== 200) throw new Error(res.statusText);
-//   return await res.buffer();
-// }
-
-// function parseHosts(data) {
-//   return data.split('\n')
-//     .map( line => line.trim())
-//     .filter( line => !line.startsWith('#')) // remove comments
-//     .filter( line => line.startsWith('0.0.0.0')) // pick the blocked hosts
-//     .map( line => line.split(' ')[1]) // keep just the hostname
-//     .map( line => line.trim());
-// }
-const readline = require('readline')
-const clearLogs = () => {
-  const blank = '\n'.repeat(process.stdout.rows)
-  console.log(blank)
-  readline.cursorTo(process.stdout, 0, 0)
-  readline.clearScreenDown(process.stdout)
+const textFill = (str, length) => {
+  for(let i = str.length; i < length; i++)
+      str +=  '&nbsp;'
+  return str
 }
-const blockedSites = {}
-
-const showStats = domain => {
-  domain = domain.split('.').slice(-2).join('.')
-  if(domain in blockedSites) blockedSites[domain]++
-  else blockedSites[domain] = 1
-
-  const sites = Object.entries(blockedSites).sort((a, b) => b[1] - a[1])
-  const size = sites.length > 80 ? 80 : sites.length
-  clearLogs()
-  console.log(`Total Sites Blocked: ${sites.length}\x1b[31m`)
-  for(let i = 0; i < size; i++)
-    console.log((i <= 9 ? ' ' + i : i) + (`> ${sites[i][1]}` + ' '.repeat(9)).substr(0, 9) + `:${sites[i][0]}`)
-  console.log('\x1b[0m______________________')
+const showInfo = (sites, type, text, color) => {
+  const filtered = sites.filter(kv => kv[1][type]).sort((a, b) => b[1] - a[1])
+  text = `<h2>${text}<span style='color:${color}'>${filtered.length}</span></h2>`
+  for(let i = 0; i < filtered.length; i++) {
+    const index = i <= 9 ? '&nbsp;' + i : i
+    const totalCalls = '' + filtered[i][1][type]
+    text += `${index}> ${textFill(totalCalls, 5)}: ${filtered[i][0]}</br>`
+  }
+  return text
 }
+
+const visitedSites = {}
+
+const server = net.createServer(socket => {
+  const sites = Object.entries(visitedSites)
+   const html = showInfo(sites, 'blocks', 'Total Sites Blocked: ', 'red') +
+                showInfo(sites, 'requests', 'Sites Stats: ', 'green')
+  socket.write([
+    'HTTP/1.1 200 OK',
+    'Content-Type: text/html; charset=UTF-8',
+    `Content-Length: ${html.length}`,
+    `Server: Marin-HTTP-Server`,
+    'Connection: close',
+    '\r', html
+  ].join('\n'))
+  socket.end()
+})
+server.listen(80, '127.0.0.1')
 
 const isBlocked = domain => {
-  for(const dns of allowed)
-    if(domain.includes(dns))
-       return false;
-  setTimeout(() => showStats(domain), 200)
+  for(const dns of allowed) {
+    if(domain.includes(dns)) {
+      if(dns in visitedSites) visitedSites[dns].requests++
+      else visitedSites[dns] = {requests: 1}
+      return false;
+    }
+  }
+  domain = domain.split('.').slice(-2).join('.')
+  if(domain in visitedSites) visitedSites[domain].blocks++
+  else visitedSites[domain] = {blocks: 1}
   return true;
-  // if(hosts.includes(domain)) return true;
-  // return hosts.some(host=> host.includes('*') && minimatch(domain, host));
 }
-
-// async function _loadHosts(hostsUrl) {
-//   const cacheFile = path.join(config.cacheDir, md5(hostsUrl));
-//   let data = await download(hostsUrl).catch(()=>{});
-//   if(data) await fs.outputFile(cacheFile, data); // write the cache file if download succeeds
-//   if(!data) data = await fs.readFile(cacheFile).catch(()=>{});  // fallback to cache if download fails
-//   if(!data) throw new Error(`Failed to load the hosts file`); // throw an error if both download and cache fail
-//   hosts = hosts.concat(parseHosts(data.toString('utf-8')));
-// }
-
-// module.exports.loadHosts = async function loadHosts() {
-//   await Promise.all(config.hostsUrls.map(hostsUrl=> _loadHosts(hostsUrl)));
-// }
 
 module.exports.resolveQuery = function resolveQuery(packet) {
   return new Promise((resolve)=> {
@@ -92,16 +71,16 @@ module.exports.resolveQuery = function resolveQuery(packet) {
 
     // resolve with NXDOMAIN if the domain is blocked
     if(['A', 'AAAA'].includes(question.type) && isBlocked(question.name)) {
-      // lm.log(`Blocked ${question.name}`);
-      return resolve(encode({ type: 'response', id: request.id, flags: 3, questions: request.questions })); // flag 3 is NXDOMAIN; https://serverfault.com/a/827108
+      // lm.log(`Blocked ${question.name}`)
+      return resolve(encode({ type: 'response', id: request.id, flags: 3, questions: request.questions })) // flag 3 is NXDOMAIN; https://serverfault.com/a/827108
     }
 
     // query remote servers. Resolve with SERVFAIL on error
     queryServers(servers, packet, { timeout: config.timeout })
       .then(resolve)
       .catch((err)=> {
-        console.log(err.message);
-        resolve(encode({ type: 'response', id: request.id, flags: 2, questions: request.questions })); // flag 2 is SERVFAIL; https://serverfault.com/a/827108
-      });
-  });
+        console.log(err.message)
+        resolve(encode({ type: 'response', id: request.id, flags: 2, questions: request.questions })) // flag 2 is SERVFAIL; https://serverfault.com/a/827108
+      })
+  })
 }

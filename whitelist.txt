@@ -49,10 +49,12 @@ vk-cdn.net
 yandex.net
 akadns.net
 fastly.net
+php.net
 
 raspberrypi.org
 ampproject.org
 wikipedia.org
+wikimedia.org
 animevost.org
 archive.org
 gentoo.org
@@ -64,11 +66,11 @@ in-addr.arpa
 
 accountingtechniciansireland.ie
 citizensinformation.ie
+propertyimages.ie
 etbonline.ie
 donedeal.ie
 heanet.ie
 ddletb.ie
-myhome.ie
 google.ie
 ebay.ie
 ncts.ie
@@ -83,6 +85,7 @@ versuri.ro
 
 ie.dyndns.biz
 
+myhome.ie
 #youtu.be
 #youtube.com
 #googlevideo.com
