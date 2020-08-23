@@ -17,4 +17,7 @@ module.exports = {
   udpServers: split(env.UDP_REMOTE_ADDRESS),
   httpServers: split(env.HTTPS_REMOTE_ADDRESS),
   cacheDir: path.resolve(__dirname, '../data'),
+
+  WEB_IP: '192.168.1.88',
+  WEB_PORT: 8888
 };

@@ -18,7 +18,7 @@ const textFill = (str, length) => {
   return str
 }
 const showInfo = (sites, type, text, color) => {
-  const filtered = sites.filter(kv => kv[1][type]).sort((a, b) => b[1] - a[1])
+  const filtered = sites.filter(kv => kv[1][type]).sort((a, b) => b[1][type] - a[1][type])
   text = `<h2>${text}<span style='color:${color}'>${filtered.length}</span></h2>`
   for(let i = 0; i < filtered.length; i++) {
     const index = i <= 9 ? '&nbsp;' + i : i
@@ -44,9 +44,10 @@ const server = net.createServer(socket => {
   ].join('\n'))
   socket.end()
 })
-server.listen(80, '127.0.0.1')
+server.listen(config.WEB_PORT, config.WEB_IP)
 
 const isBlocked = domain => {
+  //return false
   for(const dns of allowed) {
     if(domain.includes(dns)) {
       if(dns in visitedSites) visitedSites[dns].requests++
@@ -71,7 +72,7 @@ module.exports.resolveQuery = function resolveQuery(packet) {
 
     // resolve with NXDOMAIN if the domain is blocked
     if(['A', 'AAAA'].includes(question.type) && isBlocked(question.name)) {
-      // lm.log(`Blocked ${question.name}`)
+      //console.log(`Blocked ${question.name}`)
       return resolve(encode({ type: 'response', id: request.id, flags: 3, questions: request.questions })) // flag 3 is NXDOMAIN; https://serverfault.com/a/827108
     }
 
