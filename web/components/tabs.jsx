@@ -1,21 +1,21 @@
-function changeTab (e) {
+function changeTab (e, emitter, goto) {
   e = e.target.parentElement
   const tab = e.tagName === 'LI' ? e : e.parentElement
   const tabs = tab.parentElement.childNodes
   tabs.forEach(tab => tab.classList.remove('is-active'))
   tab.classList.add('is-active')
+  emitter.emit('replaceState', goto)
 }
 
-const Tab = ({ name, name2, icon, icon2, isActive }) => (
-  <li class={{ 'is-active': isActive }} onclick={changeTab}>
+const Tab = ({ goto, info, emitter }) => (
+  <li class={{ 'is-active': window.location.pathname === goto }} onclick={e => changeTab(e, emitter, goto)}>
     <a>
-      <span class='icon is-small'>
-        <i class={'fas fa-' + icon} aria-hidden='true' />
-      </span>
-      <span>{name} &nbsp;</span>
-      {icon2 && <span><i class={'fas fa-' + icon2} aria-hidden='true' /></span>}
-      {name2 && <span>{name2}</span>}
-
+      {info.map(({ name, icon }) => (
+        <div>
+          <span class='icon is-small'><i class={'fas fa-' + icon} aria-hidden='true' /></span>
+          <span>&nbsp;{name}&nbsp;</span>
+        </div>
+      ))}
     </a>
   </li>
 )
@@ -23,9 +23,9 @@ const Tab = ({ name, name2, icon, icon2, isActive }) => (
 module.exports = () => (
   <div class='tabs is-centered is-boxed is-medium'>
     <ul>
-      <Tab name='Websites Log' icon='list-alt' isActive />
-      <Tab name='Whitelist' name2='Blacklist' icon='user-check' icon2='ban' />
-      <Tab name='DNS Servers' icon='server' />
+      <Tab goto='/' info={[{ name: 'Websites Log', icon: 'list-alt' }]} />
+      <Tab goto='/filters' info={[{ name: 'Whitelist', icon: 'user-check' }, { name: 'Blacklist', icon: 'ban' }]} />
+      <Tab goto='/dns' info={[{ name: 'DNS Servers', icon: 'server' }]} />
     </ul>
   </div>
 )

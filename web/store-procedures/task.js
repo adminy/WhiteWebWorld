@@ -1,4 +1,14 @@
 module.exports = (state, emitter) => {
+  React.createElement = (tag, attr, ...children) => {
+    if (typeof attr === 'string' || Array.isArray(attr)) {
+      children.unshift(attr)
+      attr = {}
+    }
+    attr = attr || {}
+    attr.children && !children.length && ({ children, ...attr } = attr)
+    return React.jsx(tag, { ...attr, children, state, emitter }, attr.key)
+  }
+
   emitter.on('formSubmit', e => {
     e.preventDefault()
     const form = new FormData(e.target)

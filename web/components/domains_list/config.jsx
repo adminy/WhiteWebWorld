@@ -1,4 +1,4 @@
-function orderByFreqOrDate(e) {
+function orderByFreqOrDate (e) {
   const iconClass = (!e.target.childElementCount ? e.target : e.target.firstChild).classList
   if (iconClass.contains('fa-wave-square')) {
     iconClass.remove('fa-wave-square')
@@ -9,7 +9,7 @@ function orderByFreqOrDate(e) {
   }
 }
 
-function orderAscOrDesc(e) {
+function orderAscOrDesc (e) {
   const iconClass = (!e.target.childElementCount ? e.target : e.target.firstChild).classList
   if (iconClass.contains('fa-angle-down')) {
     iconClass.remove('fa-angle-down')
@@ -20,7 +20,7 @@ function orderAscOrDesc(e) {
   }
 }
 
-function refreshList(e) {
+function refreshList (e) {
   const button = !e.target.childElementCount ? e.target.parentElement : e.target
   button.classList.add('is-loading')
   button.disabled = true
@@ -31,23 +31,23 @@ function refreshList(e) {
 }
 
 module.exports = () => (
-  <div class="columns">
-    <div class="column is-7">
+  <div class='columns'>
+    <div class='column is-7'>
       <label class='label is-medium has-text-right'>Order By</label>
     </div>
-    <div class="column">
-      <button class='button is-medium icon' onclick={orderByFreqOrDate}><i class='fas fa-wave-square' aria-hidden='true'/></button>
-      <button class='button is-medium icon' onclick={orderAscOrDesc}><i class='fas fa-angle-down' aria-hidden='true'/></button>
+    <div class='column'>
+      <button class='button is-medium icon' onclick={orderByFreqOrDate}><i class='fas fa-wave-square' aria-hidden='true' /></button>
+      <button class='button is-medium icon' onclick={orderAscOrDesc}><i class='fas fa-angle-down' aria-hidden='true' /></button>
     </div>
-    <div class="column is-1">
+    <div class='column is-1'>
       <label class='label is-medium'>Limit</label>
     </div>
-    <div class="column is-1">
+    <div class='column is-1'>
       <input class='input is-small' type='number' value={20} />
     </div>
-    <div class="column is-1">
-      <button class='button is-medium icon' onclick={refreshList}><i class='fas fa-sync-alt' aria-hidden='true'/></button>
+    <div class='column is-1'>
+      <button class='button is-medium icon' onclick={refreshList}><i class='fas fa-sync-alt' aria-hidden='true' /></button>
     </div>
-    
+
   </div>
 )

@@ -1,9 +1,9 @@
-function removeActivePage(element) {
+function removeActivePage (element) {
   element.classList.remove('is-current')
   element.removeAttribute('aria-current')
 }
 
-function changePage(e) {
+function changePage (e) {
   const pageNumber = e.target
   const pages = pageNumber.parentElement.parentElement.childNodes
   pages.forEach(page => page.firstChild.classList.contains('is-current') && removeActivePage(page.firstChild))
@@ -26,7 +26,7 @@ module.exports = () => (
     <a class='pagination-next'>Next page</a>
     <ul class='pagination-list'>
       <PageNumber number={1} isOnThisPage />
-      {Array(7).fill(0).map((_, i) => <PageNumber number={i+2} />)}
+      {Array(7).fill(0).map((_, i) => <PageNumber number={i + 2} />)}
     </ul>
   </nav>
 )
