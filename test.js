@@ -1,5 +1,0 @@
-const fs = require('fs')
-list = fs.readFileSync('./whitelist.txt').toString().split('\n')
-list = Array(...new Set(list))
-for(const line of list)
-	console.log(line)

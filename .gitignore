@@ -1,5 +1,5 @@
 .DS_Store
-/node_modules
-/coverage
-/data
-package-lock.json
+node_modules
+dist
+.cache
+*.db
