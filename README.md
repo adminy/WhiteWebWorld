@@ -19,6 +19,16 @@ emitter.emit('replaceState', '/page/path')
 - [fontawesome](https://fontawesome.com/v5.15/icons?d=gallery&p=2&q=save) - icons
 - `standard.js` - formatting & rules
 
+# TODO
+
+- [ ] Add service file to be able to add this as a linux systemctl service
+- [ ] Reset when network is unreachable by attempting restart
+- [ ] Make frontend calls to backend for valid tag name
+- [ ] Make frontend calls to backend for tags
+- [ ] Make frontend calls to backend for tag to regex
+- [ ] Make frontend calls to backend for pages
+- [ ] Make frontend calls to backend for sorting
+
 
 # Bugs
 Disconnect the network to reproduce
