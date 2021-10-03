@@ -1,37 +1,24 @@
 # WhiteWebWorld
 A DNS server that is simple and easy to manage.
-
----
-|
-
-|
-
 ---
 
 
-Origin: adburner-dns
-
----
-|
-
-|
-
----
-
-This is following stanardjs with the following rule turned off in the [config](https://stackoverflow.com/a/36189032)
-```json
-...
-  "rules": {
-    "react/jsx-key": 0
-  }
+>Development Info
+```javascript
+// navigates to a route without refresh or creating browser history
+emitter.emit('replaceState', '/page/path')
 ```
 
----
-|
+# Libraries Used
+- `parcel` - web bundler
+- `fastify` - web server
+- `better-sqlite3` - database
+- `choo.js` - event handling, routes, state, navigation, views, components
+- `jsx-dom` - functional components & syntax
+- `bulma` - css styles
+- [fontawesome](https://fontawesome.com/v5.15/icons?d=gallery&p=2&q=save) - icons
+- `standard.js` - formatting & rules
 
-|
-
----
 
 # Bugs
 Disconnect the network to reproduce
@@ -55,3 +42,5 @@ Error: send ENETUNREACH 192.168.8.114:57277
   port: 57277
 }
 ```
+
+Origin: adburner-dns

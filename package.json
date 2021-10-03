@@ -19,9 +19,23 @@
 		"fastify-websocket": "^2.0.11",
 		"jsx-dom": "^7.0.0-beta.2",
 		"middie": "^5.2.0",
-		"nodemon": "^2.0.6",
 		"parcel-bundler": "^1.12.4",
 		"sass": "^1.30.0"
+	},
+	"standard": {
+		"globals": [
+			"FormData",
+			"React",
+			"fetch",
+			"WebSocket"
+		],
+		"fix": false,
+		"eslintConfig": {
+			"url": "https://stackoverflow.com/a/36189032",
+			"rules": {
+				"react/jsx-key": 0
+			}
+		}
 	},
 	"author": "Marin Bivol",
 	"license": "ISC"
