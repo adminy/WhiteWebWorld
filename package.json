@@ -1,16 +1,28 @@
 {
-  "name": "adburner-dns",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "dns-packet": "^5.2.1",
-    "forever": "^1.0.0",
-    "is-ip": "^3.1.0",
-    "is-url": "^1.2.4",
-    "node-fetch": "^2.6.0"
-  },
-  "scripts": {
-    "start": "forever server.js",
-    "start-dev": "sudo node server.js"
-  }
+	"name": "white-web-world",
+	"version": "1.0.0",
+	"description": "A DNS server that is simple and easy to manage.",
+	"scripts": {
+		"start": "node server",
+		"test": "nodemon --ignore dist --ignore .cache server"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^5.15.4",
+		"better-sqlite3": "^7.4.3",
+		"bulma": "^0.9.3",
+		"choo": "^7.1.0",
+		"dgram-as-promised": "^5.0.1",
+		"dns-packet": "^5.3.0",
+		"fastify": "^3.9.1",
+		"fastify-file-upload": "^3.0.0",
+		"fastify-https-redirect": "^1.0.3",
+		"fastify-websocket": "^2.0.11",
+		"jsx-dom": "^7.0.0-beta.2",
+		"middie": "^5.2.0",
+		"nodemon": "^2.0.6",
+		"parcel-bundler": "^1.12.4",
+		"sass": "^1.30.0"
+	},
+	"author": "Marin Bivol",
+	"license": "ISC"
 }
