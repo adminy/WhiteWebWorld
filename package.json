@@ -7,7 +7,6 @@
 		"test": "nodemon --ignore dist --ignore .cache server"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-free": "^5.15.4",
 		"better-sqlite3": "^7.4.3",
 		"bulma": "^0.9.3",
 		"bulma-tooltip": "^3.0.2",
