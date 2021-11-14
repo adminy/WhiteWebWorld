@@ -30,4 +30,8 @@ module.exports = (state, emitter) => {
     state.domains = domains
     emitter.emit('render')
   })
+
+  const $C = id => document.getElementById(id).classList
+  emitter.on('user-settings', () => $C('user-settings-popup').add('is-active'))
+  emitter.on('settings', () => $C('settings-popup').add('is-active'))
 }
