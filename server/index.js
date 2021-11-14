@@ -20,6 +20,20 @@ const queryServers = packet => Promise.any(UDP_SERVERS.map(server => queryUdp(se
 
 const isBlocked = domain => false
 
+const addUserRecord = async (domain, clientIP) => {
+  const domainID = db.addDomain(domain).lastInsertRowid
+  const { ip, mac, name } = await findMac(clientIP)
+  const _user = db.getUserByMac(mac)
+  !_user && db.createUser({ mac, ip, name })
+  const user = _user || db.getUserByMac(mac)
+  // const expired = new Date() - new Date(user.timestamp) > 24 * 60 * 60 * 1000
+  // expired && db.updateIP({ mac, ip })
+  const changed = user.ip !== ip
+  changed && db.updateIP({ mac, ip })
+  db.addUserDomain({ mac, domainID })
+  console.log('resolved: ', domain, ' asked by ', user.name)
+}
+
 const resolveQuery = async (packet, clientIP) => {
   const { id, questions } = decode(packet)
   const res = { type: 'response', id, questions }
@@ -27,9 +41,7 @@ const resolveQuery = async (packet, clientIP) => {
   if (isBlocked(domain)) return encode({ ...res, flags: 3 })
   const query = await queryServers(packet)
   if (!query) return encode({ ...res, flags: 2 })
-  db.addDomain(domain)
-  const { name, ip, mac } = await findMac(clientIP)
-  console.log('resolved: ', domain, ' asked by ', name, mac, ip)
+  addUserRecord(domain, clientIP)
   return query
 }
 
@@ -60,6 +72,8 @@ loadSocketServer().then(server => {
 
   server.path('/api', async server => {
     server.get('/domains', (req, res) => db.listDomains())
+    server.get('/update/:mac/:name', (req, res) => db.updateUserName(req.params))
+    server.get('/users', (req, res) => res.send(db.getUsers()))
   // server.get('/status/:name', (req, res) => res.send(JSON.stringify({ status: 'ok', ...req.params })))
   // server.post('/upload', (req, res) => {
   // const bodyFiles = req.body['files[]']

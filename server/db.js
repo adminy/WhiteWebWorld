@@ -13,9 +13,10 @@ const createTable = {
 Object.values(createTable).map(sql => db.exec(sql))
 const query = (sql, ...args) => db.prepare(sql).all(...args)
 const run = (sql, ...args) => db.prepare(sql).run(...args)
-const createUser = user => run('INSERT INTO user(name, mac, ip) VALUES(@mac, @mac, @ip)', user)
+const createUser = user => run('INSERT INTO user(mac, name, ip) VALUES(@mac, @mac, @ip)', user)
 const getUsers = () => query('SELECT * FROM user')
-const getUser = ip => query('SELECT * FROM user WHERE ip=?', [ip])
+const getUserByMac = mac => query('SELECT * FROM user WHERE mac=?', [mac])[0]
+
 const updateIP = user => run('UPDATE user SET ip=@ip WHERE mac=@mac', user)
 const updateUserName = user => run('UPDATE user SET name=@name WHERE mac=@mac', user)
 
@@ -31,7 +32,7 @@ process.on('SIGTERM', () => process.exit(128 + 15))
 module.exports = {
   createUser,
   getUsers,
-  getUser,
+  getUserByMac,
   updateIP,
   updateUserName,
 
