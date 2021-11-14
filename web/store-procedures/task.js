@@ -32,6 +32,19 @@ module.exports = (state, emitter) => {
   })
 
   const $C = id => document.getElementById(id).classList
+
+  state.users = []
+  fetch('/api/users').then(res => res.json()).then(users => {
+    state.users = users
+    emitter.emit('render')
+  })
   emitter.on('user-settings', () => $C('user-settings-popup').add('is-active'))
   emitter.on('settings', () => $C('settings-popup').add('is-active'))
+
+  emitter.on('update-mac-name', e => {
+    const p = e.target.parentElement
+    const input = p.firstChild
+    const mac = p.parentElement.parentElement.parentElement.parentElement.firstChild.firstChild.children[1].firstChild.firstChild.firstChild.value
+    fetch('/api/update/' + mac + '/' + input.value)
+  })
 }

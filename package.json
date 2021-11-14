@@ -34,7 +34,8 @@
 	"esLintRulesRef": "https://stackoverflow.com/a/36189032",
 	"eslintConfig": {
 		"rules": {
-			"react/jsx-key": 0
+			"react/jsx-key": 0,
+			"no-return-assign": 0
 		}
 	},
 	"author": "Marin Bivol",
