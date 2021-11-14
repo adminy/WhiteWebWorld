@@ -40,7 +40,26 @@ function refreshList (e) {
 
 module.exports = () => (
   <div class='columns'>
-    <div class='column is-7'>
+    <div class='column is-1'>
+      <label class='label is-medium'>User</label>
+    </div>
+    <div class='column is-2'>
+      <div class='control has-icons-left'>
+        <div class='select is-info'>
+          <select>
+            <option value='*' default>Everyone</option>
+            {[{ name: 'Pi', mac: 'bbbbbbbbbbbbbb' }].map(({ mac, name }) => (
+              <option value={mac}>{name}</option>
+            ))}
+          </select>
+        </div>
+        <span class='icon is-small is-left'>
+          <i class='fas fa-users' />
+        </span>
+      </div>
+
+    </div>
+    <div class='column is-4'>
       <label class='label is-medium has-text-right'>Order By</label>
     </div>
     <div class='column'>
