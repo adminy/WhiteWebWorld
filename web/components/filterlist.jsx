@@ -44,23 +44,23 @@ function saveDomain (e) {
 const Entry = ({ tag, list, type }) => (
   <section class='hero'>
     <div class='title tags has-addons'>
-      <span class={'tag is-medium is-light is-' + types[type]}>{tag}</span>
-      <WhiteBlackListButton isWhitelisted={Math.random() < 0.5} />
-      <span class='tag is-medium is-hovered'><input type='checkbox' checked /></span>
-      <span class='tag is-medium is-delete is-danger is-light' />
+      <div data-tooltip='Tag Name'><span class={'tag is-medium is-light is-' + types[type]}>{tag}</span></div>
+      <div data-tooltip='is White/Black Listed'><WhiteBlackListButton isWhitelisted={Math.random() < 0.5} /></div>
+      <div data-tooltip='Enabled'><span class='tag is-medium is-hovered'><input type='checkbox' checked /></span></div>
+      <div data-tooltip='Delete Tag'><span class='tag is-medium is-delete is-danger is-light' /></div>
     </div>
     <ul class='subtitle'>
       {list.map(site => (
         <li class='is-size-6'>
           <div class='control'>
             <div class='tags has-addons'>
-              <span class='tag is-delete is-danger is-light' />
+              <div data-tooltip='Delete Filter'><span class='tag is-delete is-danger is-light' /></div>
               <span class='tag'>{site}</span>
             </div>
           </div>
         </li>
       ))}
-      <li><input class='input is-inline' type='text' placeholder='*.example.domain.com' /><button onclick={saveDomain} class='button is-light'><i class='fas fa-check' /></button></li>
+      <li><input class='input is-inline' type='text' placeholder='*.example.domain.com' /><button onclick={saveDomain} class='button is-light' data-tooltip='Add Filter'><i class='fas fa-check' /></button></li>
       <li><hr /></li>
     </ul>
   </section>
