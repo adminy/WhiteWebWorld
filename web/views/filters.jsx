@@ -1,13 +1,8 @@
-const Tabs = require('../components/tabs')
+const App = require('../components/app')
 const FilterList = require('../components/filterlist')
 
 module.exports = (state, emit) => (
-  <body>
-    <section class='section'>
-      <div class='container'>
-        <Tabs />
-        <FilterList />
-      </div>
-    </section>
-  </body>
+  <App>
+    <FilterList />
+  </App>
 )
