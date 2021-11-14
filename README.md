@@ -54,3 +54,12 @@ Error: send ENETUNREACH 192.168.8.114:57277
 ```
 
 Origin: adburner-dns
+
+
+### Standard X
+```bash
+npm i -g standard standardx eslint-config-standard eslint-config-standard-jsx eslint-plugin-react eslint-plugin-import eslint-plugin-node eslint-plugin-promise
+vi /opt/homebrew/lib/node_modules/standardx/options.js # add
++    baseConfig: { extends: require('standard/eslintrc.json').extends.map(configName => require.resolve(`eslint-config-${configName}`)) },
++    resolvePluginsRelativeTo: __dirname,
+```
