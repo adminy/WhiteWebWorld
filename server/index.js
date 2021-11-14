@@ -1,6 +1,7 @@
 'use strict'
 const { encode, decode } = require('dns-packet')
 const dgram = require('dgram-as-promised').DgramAsPromised
+const findMac = require('local-devices')
 const loadSocketServer = require('./server')
 const db = require('./db')
 const sleep = timeout => new Promise(resolve => setTimeout(resolve, timeout))
@@ -27,7 +28,8 @@ const resolveQuery = async (packet, clientIP) => {
   const query = await queryServers(packet)
   if (!query) return encode({ ...res, flags: 2 })
   db.addDomain(domain)
-  console.log('resolved: ', domain, ' asked by ', clientIP)
+  const { name, ip, mac } = await findMac(clientIP)
+  console.log('resolved: ', domain, ' asked by ', name, mac, ip)
   return query
 }
 
